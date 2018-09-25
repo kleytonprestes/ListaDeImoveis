@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TesteGrupoZap</string>
+
+    <string name="price">Preço:\n %s</string>
+    <string name="address">Endereço\n %s</string>
+    <string name="bathRooms"> %s banheiro(s)</string>
+    <string name="badRooms"> %s quarto(s)</string>
+    <string name="usableArea"> %s de área(M²)</string>
 </resources>

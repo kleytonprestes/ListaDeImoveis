@@ -19,5 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name="propertylist.view.PropertListActivity" />
+        <activity android:name="propertydetail.view.PropertyDetailActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            />
     </application>
 </manifest>

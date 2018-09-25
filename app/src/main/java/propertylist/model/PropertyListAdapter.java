@@ -16,10 +16,12 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyViewHolder
 
     private Context context;
     private ArrayList<Property> propertyList;
+    private PropertyListClick propertyListClick;
 
-    public PropertyListAdapter(Context context, ArrayList<Property> propertyList) {
+    public PropertyListAdapter(Context context, ArrayList<Property> propertyList, PropertyListClick propertyListClick) {
         this.context = context;
         this.propertyList = propertyList;
+        this.propertyListClick = propertyListClick;
     }
 
     @NonNull
@@ -31,12 +33,19 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull PropertyViewHolder holder, int position) {
-        Property property = propertyList.get(position);
+        final Property property = propertyList.get(position);
         holder.propertyPrice.setText(property.getPricingInfos().getPrice());
         holder.propertyInfos.setText(property.getBathrooms() + "banheiro(s)");
 
         if (property.getImages() != null)
-            Utils.loadImage(context, property.getImages()[0], holder.propertyImage);
+            Utils.loadImage(context, property.getImages().get(0), holder.propertyImage);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                propertyListClick.onItemClickListener(property);
+            }
+        });
     }
 
     @Override

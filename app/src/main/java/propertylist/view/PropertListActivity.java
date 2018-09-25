@@ -1,6 +1,7 @@
 package propertylist.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,16 +12,21 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 
 import kleyton.com.br.testegrupozap.R;
+import propertydetail.view.PropertyDetailActivity;
 import propertylist.contract.PropertyListContract;
 import propertylist.model.Property;
 import propertylist.model.PropertyListAdapter;
+import propertylist.model.PropertyListClick;
 import propertylist.presenter.PropertyListPresenter;
+import utils.Utils;
 
-public class PropertListActivity extends AppCompatActivity implements PropertyListContract.View {
+public class PropertListActivity extends AppCompatActivity implements PropertyListContract.View, PropertyListClick {
+
+    public final static String PROPERTY_INTENT_KEY = "propertyIntent";
 
     private PropertyListContract.Presenter presenter = new PropertyListPresenter();
 
-    private RecyclerView.LayoutManager manager;
+    RecyclerView.LayoutManager manager;
     RecyclerView recycler;
     PropertyListAdapter adapter;
 
@@ -29,7 +35,7 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.property_list_activity);
 
-        presenter.attachView(this);
+        presenter.attachView(PropertListActivity.this);
 
         recycler = findViewById(R.id.property_list);
 
@@ -46,7 +52,7 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
 
     @Override
     public Context getContext() {
-        return this;
+        return PropertListActivity.this;
     }
 
     public void getPropertyList() {
@@ -56,9 +62,18 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
 
     @Override
     public void setAdapter(ArrayList<Property> propertyList) {
-        manager = new LinearLayoutManager(this);
-        adapter = new PropertyListAdapter(this, propertyList);
+        manager = new LinearLayoutManager(PropertListActivity.this);
+        adapter = new PropertyListAdapter(PropertListActivity.this, propertyList,
+                PropertListActivity.this);
         recycler.setLayoutManager(manager);
         recycler.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClickListener(Property property) {
+        Intent intent = new Intent(PropertListActivity.this, PropertyDetailActivity.class);
+        intent.putExtra(PROPERTY_INTENT_KEY, property);
+        startActivity(intent);
+
     }
 }
