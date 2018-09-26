@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import api.AppDataBase;
+import persistence.AppDataBase;
 import kleyton.com.br.testegrupozap.R;
 import propertydetail.contract.PropertyDetailContract;
 import propertydetail.presenter.PropertyDetailPresenter;
@@ -69,6 +69,7 @@ public class PropertyDetailActivity extends AppCompatActivity implements Propert
 
     private void configToolbar() {
 
+        toolbar.setTitle("Detalhes");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

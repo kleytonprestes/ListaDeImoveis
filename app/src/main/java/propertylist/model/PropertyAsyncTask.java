@@ -1,13 +1,10 @@
 package propertylist.model;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import api.AppDataBase;
+import persistence.AppDataBase;
 import persistence.PropertyDaoAsync;
 
 public class PropertyAsyncTask extends AsyncTask<Void, Void, ArrayList<Property>> {

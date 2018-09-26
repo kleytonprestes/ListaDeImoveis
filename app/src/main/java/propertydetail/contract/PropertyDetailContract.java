@@ -6,7 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import api.AppDataBase;
+import persistence.AppDataBase;
 import basecontract.BaseContract;
 
 public class PropertyDetailContract {

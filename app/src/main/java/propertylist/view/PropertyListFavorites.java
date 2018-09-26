@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
-import api.AppDataBase;
+import persistence.AppDataBase;
 import kleyton.com.br.testegrupozap.R;
 import persistence.PropertyDaoAsync;
 import propertydetail.view.PropertyDetailActivity;
@@ -46,8 +46,8 @@ public class PropertyListFavorites extends AppCompatActivity implements Property
 
         appDataBase = presenter.initDataBase();
 
-
         initViews();
+        configToolbar();
 
     }
 
@@ -111,6 +111,7 @@ public class PropertyListFavorites extends AppCompatActivity implements Property
         }).start();
     }
 
+
     @Override
     public void getList(ArrayList<Property> propertyArrayList) {
         presenter.setPropertyList(propertyArrayList);
@@ -120,5 +121,12 @@ public class PropertyListFavorites extends AppCompatActivity implements Property
     public boolean onOptionsItemSelected(MenuItem item) {
         onBackPressed();
         return true;
+    }
+
+    private void configToolbar() {
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 }

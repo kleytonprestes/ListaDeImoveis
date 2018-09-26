@@ -13,16 +13,13 @@ import java.util.ArrayList;
 @Entity(tableName = "property")
 public class Property implements Parcelable {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @NonNull
-    private int idProperty;
-
-    @Ignore
     private String id;
 
     @Ignore
     private boolean owner;
-    @Ignore
+
     private ArrayList<String> images;
 
     @Embedded
@@ -185,14 +182,6 @@ public class Property implements Parcelable {
         isFavorite = favorite;
     }
 
-    @NonNull
-    public int getIdProperty() {
-        return idProperty;
-    }
-
-    public void setIdProperty(@NonNull int idProperty) {
-        this.idProperty = idProperty;
-    }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

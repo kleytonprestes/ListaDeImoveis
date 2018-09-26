@@ -36,8 +36,8 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyViewHolder
     @Override
     public void onBindViewHolder(@NonNull PropertyViewHolder holder, int position) {
         final Property property = propertyList.get(position);
-        holder.propertyPrice.setText(formatPrice(property));
-        holder.propertyInfos.setText(formatInfos(property));
+        holder.propertyPrice.setText(Utils.formatPrice(property));
+        holder.propertyInfos.setText(Utils.formatInfos(property, context));
 
         if (property.getImages() != null)
             Utils.loadImage(context, property.getImages().get(0), holder.propertyImage);
@@ -64,29 +64,7 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyViewHolder
     }
 
 
-    private String formatPrice(Property property) {
-        NumberFormat nf = NumberFormat.getCurrencyInstance();
-        String price = property.getPricingInfos().getPrice();
-        float formatPrice = Float.parseFloat(price);
 
-        return nf.format(formatPrice);
-    }
-
-    private String formatInfos(Property property) {
-
-        Resources resources = context.getResources();
-        String bathRooms = resources.getString(R.string.bathRooms);
-        String badRooms = resources.getString(R.string.badRooms);
-        String usableArea = resources.getString(R.string.usableArea);
-
-        StringBuilder infos = new StringBuilder();
-        infos.append(String.format(bathRooms, property.getBathrooms())).append(", ");
-        infos.append(String.format(badRooms, property.getBedrooms())).append(", ");
-        infos.append(String.format(usableArea, property.getUsableAreas()));
-
-
-        return infos.toString();
-    }
     @Override
     public int getItemCount() {
         return propertyList != null ? propertyList.size() : 0;

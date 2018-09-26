@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import java.util.ArrayList;
 
-import api.AppDataBase;
+import persistence.AppDataBase;
 import basecontract.BaseContract;
 import propertylist.model.Property;
 
@@ -25,5 +25,7 @@ public class PropertyListContract {
         AppDataBase initDataBase();
 
         void setFavoriteProperty(AppDataBase appDataBase, Property property);
+
+        void listRentAndSale(boolean isRent, boolean isSale);
     }
 }

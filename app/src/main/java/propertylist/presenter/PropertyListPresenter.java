@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import java.util.ArrayList;
 
-import api.AppDataBase;
+import persistence.AppDataBase;
 import api.SyncInterface;
 import propertylist.contract.PropertyListContract;
 import propertylist.model.Property;
@@ -20,6 +20,8 @@ public class PropertyListPresenter implements PropertyListContract.Presenter, Sy
     private ArrayList<Property> propertyList = new ArrayList<>();
     private ArrayList<Property> propertyListZap = new ArrayList<>();
     private ArrayList<Property> propertyListVivaReal = new ArrayList<>();
+    private ArrayList<Property> propertyListSale = new ArrayList<>();
+    private ArrayList<Property> propertyListRent = new ArrayList<>();
     private float valueMinSaleToZap = 600000;
     private float valueMinRentalToZap = 3500;
     private float valueMaxSaleVivaReal = 700000;
@@ -95,7 +97,10 @@ public class PropertyListPresenter implements PropertyListContract.Presenter, Sy
                     && Float.parseFloat(property.getPricingInfos().getPrice()) >= valueMinRentalToZap)
                 propertyListZap.add(property);
         }
-        view.setAdapter(propertyListZap);
+
+        propertyList.clear();
+        propertyList.addAll(propertyListZap);
+        view.setAdapter(propertyList);
 
     }
 
@@ -112,7 +117,41 @@ public class PropertyListPresenter implements PropertyListContract.Presenter, Sy
                     && Float.parseFloat(property.getPricingInfos().getPrice()) <= valueMaxRentalVivaReal)
                 propertyListVivaReal.add(property);
         }
-        view.setAdapter(propertyListVivaReal);
+
+        propertyList.clear();
+        propertyList.addAll(propertyListVivaReal);
+        view.setAdapter(propertyList);
+    }
+
+    @Override
+    public void listRentAndSale(boolean isRent, boolean isSale) {
+        ArrayList<Property> propertyListRentAndSale = new ArrayList<>();
+        getAllVivaRealToRentAndToSale();
+
+        if (isRent && !isSale) {
+            propertyListRentAndSale.addAll(propertyListRent);
+        } else if (isSale && !isRent) {
+            propertyListRentAndSale.addAll(propertyListSale);
+        } else {
+            propertyListRentAndSale.addAll(propertyList);
+        }
+
+        view.setAdapter(propertyListRentAndSale);
+    }
+
+    private void getAllVivaRealToRentAndToSale() {
+
+
+        for (int i = 0; i < propertyList.size(); i++) {
+            if ("sale".equalsIgnoreCase(propertyList.get(i).getPricingInfos().getBusinessType())) {
+
+                propertyListSale.add(propertyList.get(i));
+
+            } else {
+                propertyListRent.add(propertyList.get(i));
+
+            }
+        }
     }
 
     @Override

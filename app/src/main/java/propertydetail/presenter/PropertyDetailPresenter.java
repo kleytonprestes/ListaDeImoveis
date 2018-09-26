@@ -2,21 +2,20 @@ package propertydetail.presenter;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.design.widget.FloatingActionButton;
 
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
-import api.AppDataBase;
+import persistence.AppDataBase;
 import kleyton.com.br.testegrupozap.R;
 import propertydetail.contract.PropertyDetailContract;
 import propertylist.model.Property;
+import utils.Utils;
 
 import static propertylist.view.PropertyListActivity.PROPERTY_INTENT_KEY;
 
@@ -44,9 +43,9 @@ public class PropertyDetailPresenter implements PropertyDetailContract.Presenter
 
         if (property != null) {
             String price = view.getContext().getResources().getString(R.string.price);
-            view.setPrice(String.format(price,formatPrice()));
+            view.setPrice(String.format(price,Utils.formatPrice(property)));
             view.setAddress(formatAddress());
-            view.setInfos(formatInfos());
+            view.setInfos(Utils.formatInfos(property, view.getContext()));
             view.setViewPagerImages(property.getImages());
             view.setImageButton(getImageResource());
         }
@@ -79,29 +78,7 @@ public class PropertyDetailPresenter implements PropertyDetailContract.Presenter
     }
 
 
-    private String formatPrice() {
-        NumberFormat nf = NumberFormat.getCurrencyInstance();
-        String price = property.getPricingInfos().getPrice();
-        float formatPrice = Float.parseFloat(price);
 
-        return nf.format(formatPrice);
-    }
-
-    private String formatInfos() {
-
-        Resources resources = view.getContext().getResources();
-        String bathRooms = resources.getString(R.string.bathRooms);
-        String badRooms = resources.getString(R.string.badRooms);
-        String usableArea = resources.getString(R.string.usableArea);
-
-        StringBuilder infos = new StringBuilder();
-        infos.append(String.format(bathRooms, property.getBathrooms())).append(", ");
-        infos.append(String.format(badRooms, property.getBedrooms())).append(", ");
-        infos.append(String.format(usableArea, property.getUsableAreas()));
-
-
-        return infos.toString();
-    }
 
     private Drawable getImageResource() {
         if (property.isFavorite()) {

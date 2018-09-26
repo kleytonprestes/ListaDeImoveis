@@ -1,14 +1,15 @@
-package api;
+package persistence;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-import persistence.PropertyDao;
 import propertylist.model.Property;
 
 @Database(entities = {Property.class}, version = 1)
+@TypeConverters({Converters.class})
 public abstract class AppDataBase extends RoomDatabase {
     public abstract PropertyDao propertyDao();
     private static AppDataBase INSTANCE;
