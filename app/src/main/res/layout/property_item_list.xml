@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/zap_icon"
+            android:scaleType="fitXY"
             app:layout_constraintRight_toLeftOf="@+id/property_favorite"/>
 
         <ImageView

@@ -6,7 +6,6 @@ import android.location.Address;
 import android.location.Geocoder;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
@@ -21,6 +20,7 @@ public class PropertyDetailPresenter implements PropertyDetailContract.Presenter
 
     PropertyDetailContract.View view;
     Property property;
+
 
     @Override
     public void attachView(PropertyDetailContract.View view) {

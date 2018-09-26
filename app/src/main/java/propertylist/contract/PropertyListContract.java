@@ -1,5 +1,7 @@
 package propertylist.contract;
 
+import android.content.Intent;
+
 import java.util.ArrayList;
 
 import basecontract.BaseContract;
@@ -14,5 +16,7 @@ public class PropertyListContract {
     public interface Presenter extends BaseContract.Presenter<View> {
 
         void requestPropertyList();
+
+        void getExtras(Intent intent);
     }
 }

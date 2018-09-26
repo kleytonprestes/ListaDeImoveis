@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
     RecyclerView.LayoutManager manager;
     RecyclerView recycler;
     PropertyListAdapter adapter;
+    ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,11 +41,18 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
 
         presenter.attachView(PropertListActivity.this);
 
-        recycler = findViewById(R.id.property_list);
+        initViews();
+
+        getIntentExtras();
 
         getPropertyList();
 
+    }
 
+    private void initViews() {
+        recycler = findViewById(R.id.property_list);
+
+        progressBar = findViewById(R.id.progress_property);
     }
 
     @Override
@@ -55,8 +66,13 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
         return PropertListActivity.this;
     }
 
-    public void getPropertyList() {
+    private void getPropertyList() {
+        progressBar.setVisibility(View.VISIBLE);
         presenter.requestPropertyList();
+    }
+
+    private void getIntentExtras() {
+        presenter.getExtras(getIntent());
     }
 
 
@@ -67,6 +83,7 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
                 PropertListActivity.this);
         recycler.setLayoutManager(manager);
         recycler.setAdapter(adapter);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ImageButton vivaRealBtn;
     ImageButton zapBtn;
-
+    public static final String IS_FROM_ZAP = "is_from_zap";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,17 +37,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.vivareal_button:
-                initNewActivity();
+                initNewActivity(false);
                 break;
 
             case R.id.zap_button:
-                initNewActivity();
+                initNewActivity(true);
                 break;
         }
     }
 
-    private void initNewActivity() {
+    private void initNewActivity(boolean isFromZap) {
         Intent intent = new Intent(this, PropertListActivity.class);
+        intent.putExtra(IS_FROM_ZAP, isFromZap);
         startActivity(intent);
 
     }
