@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import kleyton.com.br.testegrupozap.R;
-import propertylist.view.PropertListActivity;
+import propertylist.view.PropertyListActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initNewActivity(boolean isFromZap) {
-        Intent intent = new Intent(this, PropertListActivity.class);
+        Intent intent = new Intent(this, PropertyListActivity.class);
         intent.putExtra(IS_FROM_ZAP, isFromZap);
         startActivity(intent);
 

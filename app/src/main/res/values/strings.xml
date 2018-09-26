@@ -3,7 +3,8 @@
 
     <string name="price">Preço:\n %s</string>
     <string name="address">Endereço\n %s</string>
-    <string name="bathRooms"> %s banheiro(s)</string>
-    <string name="badRooms"> %s quarto(s)</string>
-    <string name="usableArea"> %s de área(M²)</string>
+    <string name="bathRooms"> %d banheiro(s)</string>
+    <string name="badRooms"> %d quarto(s)</string>
+    <string name="usableArea"> %d(M²) de área</string>
+    <string name="favorites">Favoritos</string>
 </resources>

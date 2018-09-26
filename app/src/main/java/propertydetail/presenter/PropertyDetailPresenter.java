@@ -1,20 +1,24 @@
 package propertydetail.presenter;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.design.widget.FloatingActionButton;
 
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
+import api.AppDataBase;
 import kleyton.com.br.testegrupozap.R;
 import propertydetail.contract.PropertyDetailContract;
 import propertylist.model.Property;
 
-import static propertylist.view.PropertListActivity.PROPERTY_INTENT_KEY;
+import static propertylist.view.PropertyListActivity.PROPERTY_INTENT_KEY;
 
 public class PropertyDetailPresenter implements PropertyDetailContract.Presenter {
 
@@ -38,17 +42,40 @@ public class PropertyDetailPresenter implements PropertyDetailContract.Presenter
             property = intent.getExtras().getParcelable(PROPERTY_INTENT_KEY);
         }
 
-
-
-        if (property != null && property.getPricingInfos() != null) {
+        if (property != null) {
             String price = view.getContext().getResources().getString(R.string.price);
             view.setPrice(String.format(price,formatPrice()));
             view.setAddress(formatAddress());
             view.setInfos(formatInfos());
-
             view.setViewPagerImages(property.getImages());
+            view.setImageButton(getImageResource());
         }
+    }
 
+    @Override
+    public AppDataBase initDataBase() {
+        return Room.databaseBuilder(view.getContext(),
+                AppDataBase.class, "property_db").build();
+    }
+
+    @Override
+    public void favoriteProperty(AppDataBase appDataBase) {
+        if (property.isFavorite()) {
+            property.setFavorite(false);
+            appDataBase.propertyDao().deleteProperty(property);
+        } else {
+            property.setFavorite(true);
+            appDataBase.propertyDao().insertProperty(property);
+        }
+    }
+
+    @Override
+    public void setButtonImage(FloatingActionButton fab) {
+        if (property.isFavorite()) {
+            fab.setImageDrawable(view.getContext().getResources().getDrawable(R.drawable.star_blank));
+        } else {
+            fab.setImageDrawable(view.getContext().getResources().getDrawable(R.drawable.star_red));
+        }
     }
 
 
@@ -74,6 +101,14 @@ public class PropertyDetailPresenter implements PropertyDetailContract.Presenter
 
 
         return infos.toString();
+    }
+
+    private Drawable getImageResource() {
+        if (property.isFavorite()) {
+            return view.getContext().getResources().getDrawable(R.drawable.star_red);
+        } else {
+            return view.getContext().getResources().getDrawable(R.drawable.star_blank);
+        }
     }
 
     private String formatAddress() {

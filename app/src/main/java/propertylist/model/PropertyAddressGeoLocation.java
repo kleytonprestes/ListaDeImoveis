@@ -1,11 +1,13 @@
 package propertylist.model;
 
+import android.arch.persistence.room.Embedded;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PropertyAddressGeoLocation implements Parcelable {
 
     private String precision;
+    @Embedded
     private PropertyAddressLocation location;
 
     public static final Creator<PropertyAddressGeoLocation> CREATOR = new Creator<PropertyAddressGeoLocation>() {

@@ -1,9 +1,11 @@
 package propertylist.presenter;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 
 import java.util.ArrayList;
 
+import api.AppDataBase;
 import api.SyncInterface;
 import propertylist.contract.PropertyListContract;
 import propertylist.model.Property;
@@ -48,6 +50,28 @@ public class PropertyListPresenter implements PropertyListContract.Presenter, Sy
 
         if (intent.getExtras() != null) {
             isFromZap = intent.getExtras().getBoolean(IS_FROM_ZAP);
+        }
+    }
+
+    @Override
+    public void setPropertyList(ArrayList<Property> propertyListFavorites) {
+        view.setAdapter(propertyListFavorites);
+    }
+
+    @Override
+    public AppDataBase initDataBase() {
+          return Room.databaseBuilder(view.getContext(),
+                AppDataBase.class, "property_db").build();
+    }
+
+    @Override
+    public void setFavoriteProperty(AppDataBase appDataBase, Property property) {
+        if (property.isFavorite()) {
+            property.setFavorite(false);
+            appDataBase.propertyDao().deleteProperty(property);
+        } else {
+            property.setFavorite(true);
+            appDataBase.propertyDao().insertProperty(property);
         }
     }
 

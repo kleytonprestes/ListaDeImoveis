@@ -18,9 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="propertylist.view.PropertListActivity" />
+        <activity android:name="propertylist.view.PropertyListActivity" />
         <activity android:name="propertydetail.view.PropertyDetailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             />
+        <activity android:name="propertylist.view.PropertyListFavorites" />
     </application>
 </manifest>

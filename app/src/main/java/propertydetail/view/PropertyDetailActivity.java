@@ -1,28 +1,39 @@
 package propertydetail.view;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import api.AppDataBase;
 import kleyton.com.br.testegrupozap.R;
 import propertydetail.contract.PropertyDetailContract;
 import propertydetail.presenter.PropertyDetailPresenter;
 
 
-public class PropertyDetailActivity extends AppCompatActivity implements PropertyDetailContract.View {
+public class PropertyDetailActivity extends AppCompatActivity implements PropertyDetailContract.View,
+        View.OnClickListener {
+
+    PropertyDetailContract.Presenter presenter = new PropertyDetailPresenter();
+
+    AppDataBase appDataBase;
 
     CustomPagerAdapter customPagerAdapter;
     ViewPager viewPager;
-    PropertyDetailContract.Presenter presenter = new PropertyDetailPresenter();
-
     TextView priceTV;
     TextView infosTV;
     TextView addressTV;
+    FloatingActionButton fab;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,7 +42,11 @@ public class PropertyDetailActivity extends AppCompatActivity implements Propert
 
         presenter.attachView(PropertyDetailActivity.this);
 
+        appDataBase = presenter.initDataBase();
+
         initViews();
+        configToolbar();
+
         getInfos();
 
     }
@@ -44,9 +59,20 @@ public class PropertyDetailActivity extends AppCompatActivity implements Propert
 
     void initViews() {
 
+        toolbar = findViewById(R.id.toolbar);
         priceTV = findViewById(R.id.property_price);
         infosTV = findViewById(R.id.property_infos);
         addressTV = findViewById(R.id.property_address);
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(this);
+    }
+
+    private void configToolbar() {
+
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -55,6 +81,12 @@ public class PropertyDetailActivity extends AppCompatActivity implements Propert
 
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(customPagerAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -72,6 +104,11 @@ public class PropertyDetailActivity extends AppCompatActivity implements Propert
         priceTV.setText(textPrice);
     }
 
+    @Override
+    public void setImageButton(Drawable imageResource) {
+        fab.setImageDrawable(imageResource);
+    }
+
     void getInfos() {
         presenter.getInfos(getIntent());
     }
@@ -79,5 +116,18 @@ public class PropertyDetailActivity extends AppCompatActivity implements Propert
     @Override
     public Context getContext() {
         return PropertyDetailActivity.this;
+    }
+
+    @Override
+    public void onClick(View v) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                presenter.favoriteProperty(appDataBase);
+            }
+        }).start();
+
+        presenter.setButtonImage(fab);
+
     }
 }

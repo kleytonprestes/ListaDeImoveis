@@ -1,26 +1,48 @@
 package propertylist.model;
 
+import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 
+@Entity(tableName = "property")
 public class Property implements Parcelable {
 
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    private int idProperty;
 
+    @Ignore
+    private String id;
+
+    @Ignore
     private boolean owner;
+    @Ignore
     private ArrayList<String> images;
+
+    @Embedded
     private PropertyAddress address;
     private int usableAreas;
+    @Ignore
     private String listingType;
     private int bathrooms;
     private int bedrooms;
+    @Ignore
     private String createdAt;
+    @Embedded
     private PropertyPricingInfos pricingInfos;
+    @Ignore
     private String listingStatus;
-    private String id;
+    @Ignore
     private int parkingSpaces;
+    @Ignore
     private String updatedAt;
+
     private boolean isFavorite;
 
     public static final Creator<Property> CREATOR = new Creator<Property>() {
@@ -161,6 +183,15 @@ public class Property implements Parcelable {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    @NonNull
+    public int getIdProperty() {
+        return idProperty;
+    }
+
+    public void setIdProperty(@NonNull int idProperty) {
+        this.idProperty = idProperty;
     }
 
     @Override

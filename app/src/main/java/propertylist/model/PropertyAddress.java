@@ -1,11 +1,13 @@
 package propertylist.model;
 
+import android.arch.persistence.room.Embedded;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PropertyAddress implements Parcelable {
 
     private String city;
+    @Embedded
     private PropertyAddressGeoLocation geoLocation;
     private String neighborhood;
 

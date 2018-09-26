@@ -1,5 +1,6 @@
 package propertylist.view;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,12 +8,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-
 import java.util.ArrayList;
 
+import api.AppDataBase;
 import kleyton.com.br.testegrupozap.R;
 import propertydetail.view.PropertyDetailActivity;
 import propertylist.contract.PropertyListContract;
@@ -20,9 +24,8 @@ import propertylist.model.Property;
 import propertylist.model.PropertyListAdapter;
 import propertylist.model.PropertyListClick;
 import propertylist.presenter.PropertyListPresenter;
-import utils.Utils;
 
-public class PropertListActivity extends AppCompatActivity implements PropertyListContract.View, PropertyListClick {
+public class PropertyListActivity extends AppCompatActivity implements PropertyListContract.View, PropertyListClick {
 
     public final static String PROPERTY_INTENT_KEY = "propertyIntent";
 
@@ -32,6 +35,7 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
     RecyclerView recycler;
     PropertyListAdapter adapter;
     ProgressBar progressBar;
+    AppDataBase appDataBase;
 
 
     @Override
@@ -39,7 +43,9 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.property_list_activity);
 
-        presenter.attachView(PropertListActivity.this);
+        presenter.attachView(PropertyListActivity.this);
+
+        appDataBase = presenter.initDataBase();
 
         initViews();
 
@@ -63,7 +69,7 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
 
     @Override
     public Context getContext() {
-        return PropertListActivity.this;
+        return PropertyListActivity.this;
     }
 
     private void getPropertyList() {
@@ -78,9 +84,9 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
 
     @Override
     public void setAdapter(ArrayList<Property> propertyList) {
-        manager = new LinearLayoutManager(PropertListActivity.this);
-        adapter = new PropertyListAdapter(PropertListActivity.this, propertyList,
-                PropertListActivity.this);
+        manager = new LinearLayoutManager(PropertyListActivity.this);
+        adapter = new PropertyListAdapter(PropertyListActivity.this, propertyList,
+                PropertyListActivity.this);
         recycler.setLayoutManager(manager);
         recycler.setAdapter(adapter);
         progressBar.setVisibility(View.INVISIBLE);
@@ -88,9 +94,39 @@ public class PropertListActivity extends AppCompatActivity implements PropertyLi
 
     @Override
     public void onItemClickListener(Property property) {
-        Intent intent = new Intent(PropertListActivity.this, PropertyDetailActivity.class);
+        Intent intent = new Intent(PropertyListActivity.this, PropertyDetailActivity.class);
         intent.putExtra(PROPERTY_INTENT_KEY, property);
         startActivity(intent);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_favorite, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Intent intent = new Intent(PropertyListActivity.this, PropertyListFavorites.class);
+        startActivity(intent);
+
+        return true;
+    }
+
+    @Override
+    public void onFavoriteClickListener(final Property property) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                presenter.setFavoriteProperty(appDataBase, property);
+
+            }
+        }).start();
+
+        adapter.notifyDataSetChanged();
     }
 }
