@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.design.widget.FloatingActionButton;
+import android.view.View;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,17 +38,27 @@ public class PropertyDetailPresenter implements PropertyDetailContract.Presenter
 
     @Override
     public void getInfos(Intent intent) {
+
+
+        String address = "";
         if (intent.getExtras() != null) {
             property = intent.getExtras().getParcelable(PROPERTY_INTENT_KEY);
         }
 
         if (property != null) {
             String price = view.getContext().getResources().getString(R.string.price);
+            address = formatAddress();
             view.setPrice(String.format(price,Utils.formatPrice(property)));
-            view.setAddress(formatAddress());
             view.setInfos(Utils.formatInfos(property, view.getContext()));
             view.setViewPagerImages(property.getImages());
             view.setImageButton(getImageResource());
+        }
+
+        if ("".equals(address)) {
+            view.setAddress(address, View.GONE);
+        } else {
+            view.setAddress(address, View.VISIBLE);
+
         }
     }
 

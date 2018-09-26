@@ -8,4 +8,6 @@
     <string name="usableArea"> %d(M²) de área</string>
     <string name="favorites">Favoritos</string>
     <string name="no_connection">Sem conexão com a internet</string>
+    <string name="details">Detalhes</string>
+    <string name="select">Selecione o portal que deseja visualizar os imoveis:</string>
 </resources>

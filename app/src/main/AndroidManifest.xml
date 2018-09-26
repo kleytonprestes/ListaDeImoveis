@@ -11,17 +11,23 @@
         android:roundIcon="@drawable/grupo_zap_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="mainactivity.MainActivity">
+        <activity android:name="mainactivity.MainActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="propertylist.view.PropertyListActivity" />
+
+        <activity android:name="propertylist.view.PropertyListActivity"
+            android:configChanges="orientation|screenSize"/>
+
         <activity android:name="propertydetail.view.PropertyDetailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             />
-        <activity android:name="propertylist.view.PropertyListFavorites" />
+
+        <activity android:name="propertylist.view.PropertyListFavorites"
+            android:configChanges="orientation|screenSize"/>
     </application>
 </manifest>

@@ -69,7 +69,7 @@ public class PropertyDetailActivity extends AppCompatActivity implements Propert
 
     private void configToolbar() {
 
-        toolbar.setTitle("Detalhes");
+        toolbar.setTitle(getResources().getString(R.string.details));
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -96,8 +96,9 @@ public class PropertyDetailActivity extends AppCompatActivity implements Propert
     }
 
     @Override
-    public void setAddress(String textAddress) {
+    public void setAddress(String textAddress, int visibility) {
         addressTV.setText(textAddress);
+        addressTV.setVisibility(visibility);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class PropertyDetailContract {
 
         void setInfos(String textInfos);
 
-        void setAddress(String textAddress);
+        void setAddress(String textAddress, int visibility);
 
         void setPrice(String textPrice);
 
