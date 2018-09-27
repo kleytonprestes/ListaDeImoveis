@@ -9,6 +9,7 @@ public class PropertyPricingInfos implements Parcelable {
     private String price;
     private String businessType;
     private String monthlyCondoFee;
+    private String rentalTotalPrice;
 
     public static final Creator<PropertyPricingInfos> CREATOR = new Creator<PropertyPricingInfos>() {
         @Override
@@ -18,6 +19,7 @@ public class PropertyPricingInfos implements Parcelable {
             var.price = source.readString();
             var.businessType = source.readString();
             var.monthlyCondoFee = source.readString();
+            var.rentalTotalPrice = source.readString();
             return var;
         }
 
@@ -60,12 +62,21 @@ public class PropertyPricingInfos implements Parcelable {
         this.monthlyCondoFee = monthlyCondoFee;
     }
 
+    public String getRentalTotalPrice() {
+        return rentalTotalPrice;
+    }
+
+    public void setRentalTotalPrice(String rentalTotalPrice) {
+        this.rentalTotalPrice = rentalTotalPrice;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.yearlyIptu);
         dest.writeString(this.price);
         dest.writeString(this.businessType);
         dest.writeString(this.monthlyCondoFee);
+        dest.writeString(this.rentalTotalPrice);
     }
 
     @Override

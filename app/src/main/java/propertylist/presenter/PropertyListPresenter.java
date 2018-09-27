@@ -100,6 +100,7 @@ public class PropertyListPresenter implements PropertyListContract.Presenter, Sy
 
         propertyList.clear();
         propertyList.addAll(propertyListZap);
+
         view.setAdapter(propertyList);
 
     }
@@ -137,6 +138,15 @@ public class PropertyListPresenter implements PropertyListContract.Presenter, Sy
         }
 
         view.setAdapter(propertyListRentAndSale);
+    }
+
+    @Override
+    public void addItensOnList(ArrayList<Property> propertyListItensPage) {
+        int pageSize = propertyListItensPage.size();
+
+        for (int i = pageSize; i < pageSize + 20; i++) {
+            propertyListItensPage.add(propertyList.get(i));
+        }
     }
 
     private void getAllVivaRealToRentAndToSale() {

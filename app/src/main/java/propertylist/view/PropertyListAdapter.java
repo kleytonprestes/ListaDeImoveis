@@ -1,29 +1,30 @@
-package propertylist.model;
+package propertylist.view;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import kleyton.com.br.testegrupozap.R;
+import propertylist.model.Property;
+import propertylist.model.PropertyListAdapterInterface;
+import propertylist.model.PropertyViewHolder;
 import utils.Utils;
 
 public class PropertyListAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
 
     private Context context;
     private ArrayList<Property> propertyList;
-    private PropertyListClick propertyListClick;
+    private PropertyListAdapterInterface propertyListAdapterInterface;
 
-    public PropertyListAdapter(Context context, ArrayList<Property> propertyList, PropertyListClick propertyListClick) {
+    public PropertyListAdapter(Context context, ArrayList<Property> propertyList, PropertyListAdapterInterface propertyListAdapterInterface) {
         this.context = context;
         this.propertyList = propertyList;
-        this.propertyListClick = propertyListClick;
+        this.propertyListAdapterInterface = propertyListAdapterInterface;
     }
 
     @NonNull
@@ -51,19 +52,21 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                propertyListClick.onItemClickListener(property);
+                propertyListAdapterInterface.onItemClickListener(property);
             }
         });
 
         holder.propertyFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                propertyListClick.onFavoriteClickListener(property);
+                propertyListAdapterInterface.onFavoriteClickListener(property);
             }
         });
+
+        if (position == propertyList.size() - 1){
+            propertyListAdapterInterface.onScrollEnd(propertyList);
+        }
     }
-
-
 
     @Override
     public int getItemCount() {

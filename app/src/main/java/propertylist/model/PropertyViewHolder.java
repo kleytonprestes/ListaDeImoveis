@@ -9,10 +9,10 @@ import kleyton.com.br.testegrupozap.R;
 
 public class PropertyViewHolder extends RecyclerView.ViewHolder {
 
-    ImageView propertyImage;
-    ImageView propertyFavorite;
-    TextView propertyPrice;
-    TextView propertyInfos;
+    public ImageView propertyImage;
+    public ImageView propertyFavorite;
+    public TextView propertyPrice;
+    public TextView propertyInfos;
 
     public PropertyViewHolder(View itemView) {
         super(itemView);

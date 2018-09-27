@@ -20,13 +20,12 @@ import propertydetail.view.PropertyDetailActivity;
 import propertylist.contract.PropertyListContract;
 import propertylist.model.Property;
 import propertylist.model.PropertyAsyncTask;
-import propertylist.model.PropertyListAdapter;
-import propertylist.model.PropertyListClick;
+import propertylist.model.PropertyListAdapterInterface;
 import propertylist.presenter.PropertyListPresenter;
 
 import static propertylist.view.PropertyListActivity.PROPERTY_INTENT_KEY;
 
-public class PropertyListFavorites extends AppCompatActivity implements PropertyListContract.View, PropertyListClick,
+public class PropertyListFavorites extends AppCompatActivity implements PropertyListContract.View, PropertyListAdapterInterface,
         PropertyDaoAsync {
 
     private PropertyListContract.Presenter presenter = new PropertyListPresenter();
@@ -111,11 +110,18 @@ public class PropertyListFavorites extends AppCompatActivity implements Property
         }).start();
     }
 
+    @Override
+    public void onScrollEnd(ArrayList<Property> propertyListItensPage) {
+
+    }
+
 
     @Override
     public void getList(ArrayList<Property> propertyArrayList) {
         presenter.setPropertyList(propertyArrayList);
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -27,5 +27,7 @@ public class PropertyListContract {
         void setFavoriteProperty(AppDataBase appDataBase, Property property);
 
         void listRentAndSale(boolean isRent, boolean isSale);
+
+        void addItensOnList(ArrayList<Property> propertyListItensPage);
     }
 }

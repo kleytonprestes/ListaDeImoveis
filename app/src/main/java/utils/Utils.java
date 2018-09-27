@@ -45,8 +45,14 @@ public class Utils {
     }
 
     public static String formatPrice(Property property) {
+        String price;
+        if ("sale".equalsIgnoreCase(property.getPricingInfos().getBusinessType())) {
+
+            price = property.getPricingInfos().getPrice();
+        } else {
+            price = property.getPricingInfos().getRentalTotalPrice();
+        }
         NumberFormat nf = NumberFormat.getCurrencyInstance();
-        String price = property.getPricingInfos().getPrice();
         float formatPrice = Float.parseFloat(price);
 
         return nf.format(formatPrice);

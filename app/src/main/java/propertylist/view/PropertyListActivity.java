@@ -25,16 +25,18 @@ import kleyton.com.br.testegrupozap.R;
 import propertydetail.view.PropertyDetailActivity;
 import propertylist.contract.PropertyListContract;
 import propertylist.model.Property;
-import propertylist.model.PropertyListAdapter;
-import propertylist.model.PropertyListClick;
+import propertylist.model.PropertyListAdapterInterface;
 import propertylist.presenter.PropertyListPresenter;
 
-public class PropertyListActivity extends AppCompatActivity implements PropertyListContract.View, PropertyListClick,
+public class PropertyListActivity extends AppCompatActivity implements PropertyListContract.View, PropertyListAdapterInterface,
         CompoundButton.OnCheckedChangeListener {
 
     public final static String PROPERTY_INTENT_KEY = "propertyIntent";
 
     private PropertyListContract.Presenter presenter = new PropertyListPresenter();
+
+
+    private ArrayList<Property> propertyListItensPage = new ArrayList<>();
 
     RecyclerView.LayoutManager manager;
     RecyclerView recycler;
@@ -71,6 +73,7 @@ public class PropertyListActivity extends AppCompatActivity implements PropertyL
 
         rentSwitch.setOnCheckedChangeListener(this);
         saleSwitch.setOnCheckedChangeListener(this);
+
     }
 
     @Override
@@ -108,8 +111,11 @@ public class PropertyListActivity extends AppCompatActivity implements PropertyL
 
     @Override
     public void setAdapter(ArrayList<Property> propertyList) {
+
+        presenter.addItensOnList(propertyListItensPage);
+
         manager = new LinearLayoutManager(PropertyListActivity.this);
-        adapter = new PropertyListAdapter(PropertyListActivity.this, propertyList,
+        adapter = new PropertyListAdapter(PropertyListActivity.this, propertyListItensPage,
                 PropertyListActivity.this);
         recycler.setLayoutManager(manager);
         recycler.setAdapter(adapter);
@@ -152,6 +158,12 @@ public class PropertyListActivity extends AppCompatActivity implements PropertyL
         }).start();
 
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onScrollEnd(ArrayList<Property> propertyListItensPage) {
+        presenter.addItensOnList(propertyListItensPage);
+
     }
 
     private boolean isNetworkAvailable() {
