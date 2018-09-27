@@ -20,8 +20,8 @@ import android.widget.Switch;
 
 import java.util.ArrayList;
 
-import persistence.AppDataBase;
 import kleyton.com.br.testegrupozap.R;
+import persistence.AppDataBase;
 import propertydetail.view.PropertyDetailActivity;
 import propertylist.contract.PropertyListContract;
 import propertylist.model.Property;

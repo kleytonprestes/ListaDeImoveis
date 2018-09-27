@@ -5,8 +5,8 @@ import android.content.Intent;
 
 import java.util.ArrayList;
 
-import persistence.AppDataBase;
 import api.SyncInterface;
+import persistence.AppDataBase;
 import propertylist.contract.PropertyListContract;
 import propertylist.model.Property;
 import propertylist.model.PropertyRequest;

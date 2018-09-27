@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import persistence.AppDataBase;
 import kleyton.com.br.testegrupozap.R;
+import persistence.AppDataBase;
 import propertydetail.contract.PropertyDetailContract;
 import propertydetail.presenter.PropertyDetailPresenter;
 

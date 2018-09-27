@@ -13,8 +13,8 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
-import persistence.AppDataBase;
 import kleyton.com.br.testegrupozap.R;
+import persistence.AppDataBase;
 import persistence.PropertyDaoAsync;
 import propertydetail.view.PropertyDetailActivity;
 import propertylist.contract.PropertyListContract;
