@@ -28,6 +28,7 @@
             />
 
         <activity android:name="propertylist.view.PropertyListFavorites"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:label="@string/favorites"/>
     </application>
 </manifest>
