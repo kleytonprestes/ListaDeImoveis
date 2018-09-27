@@ -112,10 +112,8 @@ public class PropertyListActivity extends AppCompatActivity implements PropertyL
     @Override
     public void setAdapter(ArrayList<Property> propertyList) {
 
-        presenter.addItensOnList(propertyListItensPage);
-
         manager = new LinearLayoutManager(PropertyListActivity.this);
-        adapter = new PropertyListAdapter(PropertyListActivity.this, propertyListItensPage,
+        adapter = new PropertyListAdapter(PropertyListActivity.this, propertyList,
                 PropertyListActivity.this);
         recycler.setLayoutManager(manager);
         recycler.setAdapter(adapter);

@@ -22,11 +22,14 @@ public class PropertyListPresenter implements PropertyListContract.Presenter, Sy
     private ArrayList<Property> propertyListVivaReal = new ArrayList<>();
     private ArrayList<Property> propertyListSale = new ArrayList<>();
     private ArrayList<Property> propertyListRent = new ArrayList<>();
+
     private float valueMinSaleToZap = 600000;
     private float valueMinRentalToZap = 3500;
     private float valueMaxSaleVivaReal = 700000;
     private float valueMaxRentalVivaReal = 4000;
     private boolean isFromZap;
+    boolean isRent;
+    boolean isSale;
 
     public PropertyListPresenter() {
     }
@@ -101,7 +104,7 @@ public class PropertyListPresenter implements PropertyListContract.Presenter, Sy
         propertyList.clear();
         propertyList.addAll(propertyListZap);
 
-        view.setAdapter(propertyList);
+        view.setAdapter(getFirstTwenty(propertyList));
 
     }
 
@@ -121,13 +124,15 @@ public class PropertyListPresenter implements PropertyListContract.Presenter, Sy
 
         propertyList.clear();
         propertyList.addAll(propertyListVivaReal);
-        view.setAdapter(propertyList);
+        view.setAdapter(getFirstTwenty(propertyList));
     }
 
     @Override
     public void listRentAndSale(boolean isRent, boolean isSale) {
         ArrayList<Property> propertyListRentAndSale = new ArrayList<>();
         getAllVivaRealToRentAndToSale();
+        this.isRent = isRent;
+        this.isSale = isSale;
 
         if (isRent && !isSale) {
             propertyListRentAndSale.addAll(propertyListRent);
@@ -137,15 +142,37 @@ public class PropertyListPresenter implements PropertyListContract.Presenter, Sy
             propertyListRentAndSale.addAll(propertyList);
         }
 
-        view.setAdapter(propertyListRentAndSale);
+        view.setAdapter(getFirstTwenty(propertyListRentAndSale));
+    }
+
+    private ArrayList<Property> getFirstTwenty(ArrayList<Property> propertyList) {
+        ArrayList<Property> propertyArrayList = new ArrayList<>();
+        if (propertyList.size() > 19){
+            for (int i = 0; i < 19; i++) {
+                propertyArrayList.add(propertyList.get(i));
+            }
+        }
+
+        return propertyArrayList;
     }
 
     @Override
     public void addItensOnList(ArrayList<Property> propertyListItensPage) {
         int pageSize = propertyListItensPage.size();
+        ArrayList<Property> propertyArrayList = new ArrayList<>();
+
+        if (isRent && !isSale) {
+            propertyArrayList.addAll(propertyListRent);
+        } else if (isSale && !isRent) {
+            propertyArrayList.addAll(propertyListSale);
+        } else {
+            propertyArrayList.addAll(propertyList);
+        }
 
         for (int i = pageSize; i < pageSize + 20; i++) {
-            propertyListItensPage.add(propertyList.get(i));
+            if (i < propertyArrayList.size()) {
+                propertyListItensPage.add(propertyArrayList.get(i));
+            }
         }
     }
 
